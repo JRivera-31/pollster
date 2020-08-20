@@ -1,1 +1,1 @@
-Simple polling app using made using python and django
+Simple polling app made using python and django
