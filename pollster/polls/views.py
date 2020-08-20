@@ -29,5 +29,32 @@ def detail(request, question_id):
 def results(request, question_id):
     # get the question
     question = get_object_or_404(Question, pk=question_id)
-    # return the data
+
+    # return the question data
     return render(request, 'polls/results.html', {'question': question})
+
+# Vote for a question choice
+def vote(request, question_id):
+    # get question
+    question = get_object_or_404(Question, pk=question_id)
+
+    # try to post selected choice
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+
+    # if a choice is not selected
+    except (KeyError, Choice.DoesNotExist):
+        # redisplay the question voting form
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': "You didn't select a choice"
+        })
+
+    # if everything goes okay, increment vote by 1 and save to db    
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if the user
+        # hits the back button
+        return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
