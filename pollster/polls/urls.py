@@ -5,4 +5,4 @@ from . import views
 
 app_name = 'polls'
 # basically creating a route
-urlpatterns = [path(''), views.index, name='index']
+urlpatterns = [path('', views.index, name='index')]
