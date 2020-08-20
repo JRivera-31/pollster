@@ -23,7 +23,7 @@ def detail(request, question_id):
         raise Http404("Question does not exist")
     
     # return the question if try is successful
-    return render(request, 'polls/results.html', {'question': question})
+    return render(request, 'polls/detail.html', {'question': question})
 
 # Get question and display results
 def results(request, question_id):
